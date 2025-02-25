@@ -22,27 +22,21 @@ const App = () => {
     }
   }, []);
 
-  
-  const updateFeedback = (feedbackType) => {
-    setFeedback((prevFeedback) => {
-      const newFeedback = { ...prevFeedback, [feedbackType]: prevFeedback[feedbackType] + 1 };
-      localStorage.setItem("feedback", JSON.stringify(newFeedback)); // Збереження в локальному сховищі
-      return newFeedback;
-    });
+   
+  const onLeaveFeedback = (option) => {
+    setFeedback((prevFeedback) => ({
+      ...prevFeedback,
+      [option]: prevFeedback[option] + 1
+    }));
   };
-
  
   const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
-
-  
   const positiveFeedback = totalFeedback > 0 ? Math.round((feedback.good / totalFeedback) * 100) : 0;
 
   return (
     <div className="App">
       <Description/>
-      
-      <Options updateFeedback={updateFeedback} totalFeedback={totalFeedback} />
-
+       <Options onLeaveFeedback={onLeaveFeedback} totalFeedback={totalFeedback} />
       {totalFeedback > 0 ? (
         <Feedback feedback={feedback} positiveFeedback={positiveFeedback} totalFeedback={totalFeedback} />
       ) : (
